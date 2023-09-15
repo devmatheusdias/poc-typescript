@@ -2,7 +2,8 @@ import {Request, Response, NextFunction} from "express";
 import { Schema } from "joi";
 
 export function validateSchema(schema: Schema) {
-    return (req: Response, res: Request, next: NextFunction) => {
+
+    return (req,res, next: NextFunction) => {       
         const validation = schema.validate(req.body, { abortEarly: false });
 
         if (validation.error) {
