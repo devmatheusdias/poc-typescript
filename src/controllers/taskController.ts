@@ -1,11 +1,18 @@
 import {Request, Response} from "express";
+import { Task } from "@/protocols/taskProtocol";
 
 async function createTask(req: Request, res: Response){
 
-    const { body } = req;
-    const { name, email, password} = body;
+    
+    const {name, description, date, responsible, status} = req.body as Task
 
-    res.send(`nome: ${name} \n email: ${email} \n password: ${password}`)
+    res.send(`
+        name: ${name} \n 
+        description: ${description} \n 
+        date: ${date}, \n 
+        responsible: ${responsible}, \n 
+        status: ${status}`
+    )
 }
 
 async function getTask(req: Request, res: Response) {
