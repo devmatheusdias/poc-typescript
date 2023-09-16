@@ -6,13 +6,18 @@ async function findByName(name:string) {
     return tasks.rows[0];
 }
 
+async function getAllTasks() {
+    const tasks =  await db.query<Task>(`SELECT * FROM task`);
+    return tasks.rows;
+}
+
 async function create(name: string, description: string, date: string, responsible_id: number, status: boolean) {
     await db.query<createTask>(`INSERT INTO task (name, description, date, responsible_id, status) VALUES ($1, $2, $3, $4, $5);`, [name, description, date, responsible_id, status])
 }
 
 async function deleteTask(name: string){
-    await db.query<createTask>(`DELETE FROM task WHERE name = $1`, [name])
+    await db.query<Task>(`DELETE FROM task WHERE name = $1`, [name])
 }
 
 
-export const taskRepository = {findByName,create, deleteTask}
+export const taskRepository = {findByName,create, deleteTask, getAllTasks}

@@ -1,6 +1,19 @@
 import { errors } from "@/errors/errors";
 import { taskRepository } from "@/repositories/tasksRepository";
 
+async function  getTask(name:string) {
+    const task = await taskRepository.findByName(name);
+    if(!task) throw errors.notFound("task")
+
+    console.log(task);
+}
+
+async function getAllTasks() {
+    const tasks = await taskRepository.getAllTasks();
+    if(tasks.length === 0) throw errors.notFound("tasks")
+    console.log(tasks)
+}
+
 async function create(name: string, description: string, date: string, responsible_id: number, status: boolean) {
     const task = await taskRepository.findByName(name);
     if(task) throw errors.conflict("task")
@@ -16,4 +29,4 @@ async function deleteTask(name: string) {
 }
 
 
-export const taskService = {create, deleteTask}
+export const taskService = {create, deleteTask, getTask, getAllTasks}

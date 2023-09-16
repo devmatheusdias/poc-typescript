@@ -6,7 +6,7 @@ const taskRouter = Router();
 
 taskRouter.post('/task', validateSchema(taskSchema),taskController.createTask);
 
-taskRouter.get('/task', taskController.getTask);
+taskRouter.get('/task/:name', taskController.getTask);
 
 taskRouter.get('/tasks', taskController.getTasks);
 

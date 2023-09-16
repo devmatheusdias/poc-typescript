@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import { createTask } from "@/protocols/taskProtocol";
+import { Task, createTask } from "@/protocols/taskProtocol";
 import { taskService } from "@/services/taskService";
 import httpStatus from "http-status"
 
@@ -12,23 +12,20 @@ async function createTask(req: Request, res: Response){
 }
 
 async function getTask(req: Request, res: Response) {
-    const { query } = req;
-    const { name } = query;
+    const { name } = req.params as {name: string}
+    await taskService.getTask(name)
 
-    res.send(`name: ${name}`)
+    res.sendStatus(httpStatus.OK)
 }
 
 async function getTasks(req: Request, res: Response) {
-    const { query } = req;
-    const { name } = query;
+    await taskService.getAllTasks();
+    res.sendStatus(httpStatus.OK)
 
-    res.send(`name: ${name}`)
 }
 
 async function updateTask(req: Request, res: Response) {
-    const { query } = req;
-    const { name } = query;
-
+    const { name } = req.params as {name: string}
     res.send(`name: ${name}`)
 }
 
