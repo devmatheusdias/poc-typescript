@@ -1,15 +1,16 @@
 import {Request, Response} from "express";
-import { Responsible } from "@/protocols/responsibleProtocol";
+import { createResponsible } from "@/protocols/responsibleProtocol";
+import { responsibleService } from "@/services/responsibleService";
+import httpStatus from "http-status";
 
 async function createResponsible(req: Request, res: Response){
 
-    const {name, email, password } = req.body as Responsible
+    const {name, email, password } = req.body as createResponsible;
 
-    res.send(`
-        name: ${name} \n
-        email: ${email} \n
-        password: ${password}
-    `)
+    await responsibleService.create(name, email, password);
+    res.sendStatus(httpStatus.CREATED)
+
+   
 }
 
 async function deleteResponsible(req: Request, res: Response) {
