@@ -1,18 +1,14 @@
 import {Request, Response} from "express";
-import { Task } from "@/protocols/taskProtocol";
+import { createTask } from "@/protocols/taskProtocol";
+import { taskService } from "@/services/taskService";
+import httpStatus from "http-status"
 
 async function createTask(req: Request, res: Response){
+    const {name, description, date, responsible_id, status} = req.body as createTask;
 
-    
-    const {name, description, date, responsible, status} = req.body as Task
-
-    res.send(`
-        name: ${name} \n 
-        description: ${description} \n 
-        date: ${date}, \n 
-        responsible: ${responsible}, \n 
-        status: ${status}`
-    )
+    await taskService.create(name, description, date, responsible_id, status);
+    res.sendStatus(httpStatus.CREATED)
+  
 }
 
 async function getTask(req: Request, res: Response) {
@@ -37,11 +33,12 @@ async function updateTask(req: Request, res: Response) {
 }
 
 async function deleteTask(req: Request, res: Response) {
-    const { query } = req;
-    const { name } = query;
+    const {name} = req.body as createTask;
 
-    res.send(`name: ${name}`)
+    await taskService.deleteTask(name);
+    res.sendStatus(httpStatus.OK)
 }
+    
 
 const taskController = { createTask, getTask, getTasks, updateTask, deleteTask};
 
