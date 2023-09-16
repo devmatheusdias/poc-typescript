@@ -1,8 +1,9 @@
 import { Router } from "express";
-import responsibleRouter from "./responsibleRoutes";
+import signUpRouter from "./signUp.routes";
+import signInRouter from "./signIn.routes";
 import taskRouter from "./taskRoutes";
 
 const routes = Router();
-routes.use(responsibleRouter, taskRouter);
+routes.use(taskRouter, signInRouter, signUpRouter);
 
 export default routes;

@@ -24,19 +24,22 @@ async function getTasks(req: Request, res: Response) {
 
 }
 
-async function updateTask(req: Request, res: Response) {
-    const { name } = req.params as {name: string}
-    res.send(`name: ${name}`)
+async function editTask(req: Request, res: Response) {
+    const { name, description, date, status } = req.query
+    const {id} = req.params
+
+    await taskService.edit(Number(id), name as string | undefined, description as string | undefined, date as string | undefined, status as string | undefined);
+    res.sendStatus(httpStatus.OK)
 }
 
-async function deleteTask(req: Request, res: Response) {
+async function updateTask(req: Request, res: Response) {
     const {name} = req.body as createTask;
 
-    await taskService.deleteTask(name);
+    await taskService.updateTask(name);
     res.sendStatus(httpStatus.OK)
 }
     
 
-const taskController = { createTask, getTask, getTasks, updateTask, deleteTask};
+const taskController = { createTask, getTask, getTasks, editTask, updateTask};
 
 export default taskController;

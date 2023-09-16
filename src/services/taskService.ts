@@ -21,12 +21,21 @@ async function create(name: string, description: string, date: string, responsib
     await taskRepository.create(name, description, date, responsible_id, status);
 }
 
-async function deleteTask(name: string) {
+async function edit(id: number, name: string | undefined, description: string | undefined, date: string | undefined, status: string | undefined) {
+    console.log(description)
+    const task = await taskRepository.findById(id);
+    if(!task) throw errors.notFound("task")
+    
+    await taskRepository.edit(id,name,description,date,status)
+
+}
+
+async function updateTask(name: string) {
     const task = await taskRepository.findByName(name);
     if(!task) throw errors.notFound("task")
 
-    await taskRepository.deleteTask(name)
+    await taskRepository.updateTask(name)
 }
 
 
-export const taskService = {create, deleteTask, getTask, getAllTasks}
+export const taskService = {create, updateTask, getTask, getAllTasks, edit}
