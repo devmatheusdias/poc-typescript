@@ -1,5 +1,6 @@
 import { db } from "@/configs/databaseConnection";
 import { Task, createTask} from "@/protocols/taskProtocol"
+import { Session } from "@/protocols/sessionProtocol";
 
 async function findByName(name:string) {
     const tasks = await db.query<Task>(`SELECT * FROM task WHERE name=$1;`, [name])
@@ -14,6 +15,11 @@ async function findById(id: number) {
 async function getAllTasks() {
     const tasks =  await db.query<Task>(`SELECT * FROM task`);
     return tasks.rows;
+}
+
+async function getToken(token:string) {
+    const existToken = await db.query<Session>(`SELECT * FROM sessions WHERE token = $1;`, [token]);
+    return existToken.rows[0]
 }
 
 async function create(name: string, description: string, date: string, responsible_id: number, status: boolean) {
@@ -33,4 +39,4 @@ async function updateTask(name: string){
 }
 
 
-export const taskRepository = {findByName, findById,create, updateTask, getAllTasks, edit}
+export const taskRepository = {findByName, findById, getToken, create, updateTask, getAllTasks, edit}

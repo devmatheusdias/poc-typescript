@@ -1,11 +1,12 @@
 import  { Router } from "express";
 import { validateSchema } from "middlewares/validateSchema.middleware";
+import { authValidate } from "@/middlewares/auth.middleware";
 import { taskSchema } from "@/schemas/taskSchema";
 import taskController from "@/controllers/taskController";
 
 const taskRouter = Router();
 
-taskRouter.post('/task', validateSchema(taskSchema),taskController.createTask);
+taskRouter.post('/task', authValidate, validateSchema(taskSchema), taskController.createTask);
 
 taskRouter.get('/task/:name', taskController.getTask);
 

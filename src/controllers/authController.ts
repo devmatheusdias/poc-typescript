@@ -7,19 +7,24 @@ async function signUp(req: Request, res: Response){
 
     const {name, email, password } = req.body as createResponsible;
 
-    await authService.create(name, email, password);
+    await authService.signUp(name, email, password);
     res.sendStatus(httpStatus.CREATED)
 
-   
 }
 
-async function deleteResponsible(req: Request, res: Response) {
-    const { query } = req;
-    const { name } = query;
+async function signIn(req: Request, res: Response) {
+   const {email, password} = req.body as createResponsible;
 
-    res.send(`name: ${name}`)
+   await authService.signIn(email, password, res.locals.userId)
+   res.sendStatus(httpStatus.OK)
+
 }
 
-const responsibleController = { signUp, deleteResponsible};
+async function logout(req: Request, res: Response) {
+    
+    await authService.logout(res.locals.userId)
+}
+
+const responsibleController = { signUp, signIn, logout};
 
 export default responsibleController;

@@ -4,9 +4,13 @@ import { taskService } from "@/services/taskService";
 import httpStatus from "http-status"
 
 async function createTask(req: Request, res: Response){
-    const {name, description, date, responsible_id, status} = req.body as createTask;
+    const {name, description, date, status} = req.body as createTask;
 
-    await taskService.create(name, description, date, responsible_id, status);
+    const responsible_id = res.locals.userID;
+    const token = res.locals.token
+
+    
+    await taskService.create(name, description, date, responsible_id, status, token);
     res.sendStatus(httpStatus.CREATED)
   
 }

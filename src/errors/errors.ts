@@ -19,48 +19,24 @@ function equalCities() {
     }
 }
 
-function wrongData() {
+function invalidPassword() {
     return {
-        type: "wrongData",
-        message: `The fields are wrong!`
+        type: "invalidPassword",
+        message: `The password are wrong!`
     }
 }
 
-function invalidFlightDate() {
+function unauthorized() {
     return {
-        type: "wrongData",
-        message: `Flight date needs to be greater than today!`
-    }
-}
-
-function invalidTravelDate() {
-    return {
-        type: "wrongData",
-        message: `bigger-date needs to be greater than smaller-date!`
-    }
-}
-
-function invalidTravelDateAmount() {
-    return {
-        type: "badRequest",
-        message: `Both bigger-date and smaller-date needs to be passed!`
-    }
-}
-
-function tooManyResults() {
-    return {
-        type: "tooManyResults",
-        message: `Exceeded 10 travels limit`
+        type: "unauthorized",
+        message: `not authorized`
     }
 }
 
 export const errors = {
     notFound,
     conflict,
-    wrongData,
+    invalidPassword,
     equalCities,
-    invalidFlightDate,
-    invalidTravelDate,
-    invalidTravelDateAmount,
-    tooManyResults
+    unauthorized
 }

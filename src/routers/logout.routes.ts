@@ -4,9 +4,9 @@ import { validateSignin } from "@/middlewares/signIn.middleware";
 import authSchemas from "@/schemas/authSchemas";
 import authController from "@/controllers/authController";
 
-const signInRouter = Router()
+const logoutRouter = Router()
 
-signInRouter.post('/signIn', validateSchema(authSchemas.signInSchema), validateSignin, authController.signIn);
+logoutRouter.post('/logout', validateSchema(authSchemas.signInSchema), validateSignin, authController.signIn);
 
-export default signInRouter;
+export default logoutRouter;
 

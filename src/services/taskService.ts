@@ -14,7 +14,11 @@ async function getAllTasks() {
     console.log(tasks)
 }
 
-async function create(name: string, description: string, date: string, responsible_id: number, status: boolean) {
+async function create(name: string, description: string, date: string, responsible_id: number, status: boolean, token: string) {
+    
+    const existToken = await taskRepository.getToken(token)
+    if(!existToken) throw errors.unauthorized()
+
     const task = await taskRepository.findByName(name);
     if(task) throw errors.conflict("task")
 
