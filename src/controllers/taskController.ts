@@ -67,7 +67,6 @@ async function deleteTask(req: Request, res:Response) {
     res.sendStatus(httpStatus.OK)
     
 }
-    
 
 const taskController = { createTask, getTask, getTasks, editTask, finishTask, deleteTask};
 

@@ -9,8 +9,7 @@ async function findByName(name:string, responsible_id: number) {
 
 async function findByNameFinishedTasks(id: number, responsible_id: number) {
     console.log(id)
-    // const tasks = await db.query<Task>(`SELECT * FROM finished_task WHERE id=$1 AND responsible_id = $2;`, [id, responsible_id])
-    const tasks = await db.query<Task>(`SELECT * FROM finishedtasks`)
+    const tasks = await db.query<Task>(`SELECT * FROM finishedtasks WHERE id=$1 AND responsible_id = $2;`, [id, responsible_id])
     return tasks.rows[0]
 }
 

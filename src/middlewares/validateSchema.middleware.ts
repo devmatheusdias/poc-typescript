@@ -3,7 +3,7 @@ import { Schema } from "joi";
 
 export function validateSchema(schema: Schema) {
 
-    return (req,res, next: NextFunction) => {       
+    return (req: Request,res: Response, next: NextFunction) => {       
         const validation = schema.validate(req.body, { abortEarly: false });
 
         if (validation.error) {
