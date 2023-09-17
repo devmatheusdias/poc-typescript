@@ -47,14 +47,28 @@ async function editTask(req: Request, res: Response) {
     res.sendStatus(httpStatus.OK)
 }
 
-// async function updateTask(req: Request, res: Response) {
-//     const {name} = req.body as createTask;
+async function finishTask(req: Request, res: Response) {
+    const {name} = req.query;
 
-//     await taskService.updateTask(name);
-//     res.sendStatus(httpStatus.OK)
-// }
+    const responsible_id = res.locals.userID
+    const token = res.locals.token;
+
+    await taskService.finishTask(name as string, responsible_id, token);
+    res.sendStatus(httpStatus.OK)
+}
+
+async function deleteTask(req: Request, res:Response) {
+    const { id } = req.params;
+
+    const responsible_id = res.locals.userID
+    const token = res.locals.token;
+
+    await taskService.deleteTask(Number(id) as number, responsible_id, token)
+    res.sendStatus(httpStatus.OK)
+    
+}
     
 
-const taskController = { createTask, getTask, getTasks, editTask};
+const taskController = { createTask, getTask, getTasks, editTask, finishTask, deleteTask};
 
 export default taskController;

@@ -7,6 +7,14 @@ async function findByName(name:string, responsible_id: number) {
     return tasks.rows[0];
 }
 
+async function findByNameFinishedTasks(id: number, responsible_id: number) {
+    console.log(id)
+    // const tasks = await db.query<Task>(`SELECT * FROM finished_task WHERE id=$1 AND responsible_id = $2;`, [id, responsible_id])
+    const tasks = await db.query<Task>(`SELECT * FROM finishedtasks`)
+    return tasks.rows[0]
+}
+
+
 async function findById(id: number) {
     const tasks = await db.query<Task>(`SELECT * FROM task WHERE id=$1;`, [id])
     return tasks.rows[0];
@@ -34,9 +42,19 @@ async function edit(id: number, name: string, description: string, date: string,
     if(status) await db.query<Task>(`UPDATE task SET status = $1 WHERE id = $2 AND responsible_id = $3`, [status, id, responsible_id])
 }
 
-async function updateTask(name: string){
-    await db.query<Task>(`DELETE FROM task WHERE name = $1`, [name])
+async function finishTask(name: string, responsible_id: number){
+  
+    const task = await findByName(name, responsible_id);
+    
+    await db.query<Task>(`INSERT INTO finished_tasks (name, description, date, status, responsible_id) VALUES ($1, $2, $3, $4, $5);`, [task.name, task.description, task.date, 'false', task.responsible_id])    
+    await db.query<Task>(`DELETE FROM task  WHERE name = $1 AND responsible_id = $2;`, [name, responsible_id]);
+
+}
+
+async function deleteTask(id: number,  responsible_id: number) {
+    await db.query<Task>(`DELETE FROM finishedtasks WHERE id = $1 AND responsible_id = $2;`, [id, responsible_id])
+    
 }
 
 
-export const taskRepository = {findByName, findById, getToken, create, updateTask, getAllTasks, edit}
+export const taskRepository = {findByName, findById, findByNameFinishedTasks, getToken, create, finishTask, getAllTasks, edit, deleteTask}

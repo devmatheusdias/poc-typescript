@@ -14,6 +14,8 @@ taskRouter.get('/tasks', authValidate, taskController.getTasks);
 
 taskRouter.put('/task/:id', authValidate, taskController.editTask);
 
-// taskRouter.delete('/task', taskController.updateTask);
+taskRouter.put('/finishTask', authValidate, taskController.finishTask);
+
+taskRouter.delete('/task/:id', authValidate, taskController.deleteTask)
 
 export default taskRouter;

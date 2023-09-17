@@ -47,12 +47,30 @@ async function edit(id: number, name: string | undefined, description: string | 
 
 }
 
-// async function updateTask(name: string) {
-//     const task = await taskRepository.findByName(name);
-//     if(!task) throw errors.notFound("task")
+async function finishTask(name: string, responsible_id: number, token: string) {
 
-//     await taskRepository.updateTask(name)
-// }
+    const existToken = await taskRepository.getToken(token)
+    if(!existToken) throw errors.unauthorized()
+
+    const task = await taskRepository.findByName(name, responsible_id);
+    if(!task) throw errors.notFound("task")
+
+    if(task.responsible_id != responsible_id) throw errors.unauthorized()
+
+    await taskRepository.finishTask(name, responsible_id)
+}
+
+async function deleteTask(id: number, responsible_id: number, token: string){
+    const existToken = await taskRepository.getToken(token)
+    if(!existToken) throw errors.unauthorized()
+
+    const task = await taskRepository.findByNameFinishedTasks(id, responsible_id);
+    if(!task) throw errors.notFound("task")
+
+    if(task.responsible_id != responsible_id) throw errors.unauthorized();
+
+    await taskRepository.deleteTask(id, responsible_id);
+}
 
 
-export const taskService = {create, getTask, getAllTasks, edit}
+export const taskService = {create, getTask, getAllTasks, edit, finishTask, deleteTask}
