@@ -24,5 +24,9 @@ export default function errorHandler(error: any, req: Request, res: Response, ne
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
   }
 
+  if(error.type === "unauthorized"){
+    return res.status(httpStatus.UNAUTHORIZED).send(error.message)
+  }
+
   return res.status(httpStatus.INTERNAL_SERVER_ERROR).send("Sorry, something went wrong 😢");
 }

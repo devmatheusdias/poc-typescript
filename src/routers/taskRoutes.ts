@@ -8,12 +8,12 @@ const taskRouter = Router();
 
 taskRouter.post('/task', authValidate, validateSchema(taskSchema), taskController.createTask);
 
-taskRouter.get('/task/:name', taskController.getTask);
+taskRouter.get('/task/:name', authValidate, taskController.getTask);
 
-taskRouter.get('/tasks', taskController.getTasks);
+taskRouter.get('/tasks', authValidate, taskController.getTasks);
 
-taskRouter.put('/task/:id', taskController.editTask);
+taskRouter.put('/task/:id', authValidate, taskController.editTask);
 
-taskRouter.delete('/task', taskController.updateTask);
+// taskRouter.delete('/task', taskController.updateTask);
 
 export default taskRouter;

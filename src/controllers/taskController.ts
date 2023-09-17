@@ -17,13 +17,21 @@ async function createTask(req: Request, res: Response){
 
 async function getTask(req: Request, res: Response) {
     const { name } = req.params as {name: string}
-    await taskService.getTask(name)
+
+    const responsible_id = res.locals.userID;
+    const token = res.locals.token
+
+    await taskService.getTask(name, responsible_id, token)
 
     res.sendStatus(httpStatus.OK)
 }
 
 async function getTasks(req: Request, res: Response) {
-    await taskService.getAllTasks();
+    
+    const responsible_id = res.locals.userID;
+    const token = res.locals.token
+
+    await taskService.getAllTasks(responsible_id, token);
     res.sendStatus(httpStatus.OK)
 
 }
@@ -32,18 +40,21 @@ async function editTask(req: Request, res: Response) {
     const { name, description, date, status } = req.query
     const {id} = req.params
 
-    await taskService.edit(Number(id), name as string | undefined, description as string | undefined, date as string | undefined, status as string | undefined);
+    const responsible_id = res.locals.userID;
+    const token = res.locals.token
+
+    await taskService.edit( Number(id), name as string | undefined, description as string | undefined, date as string | undefined, status as string | undefined, responsible_id, token );
     res.sendStatus(httpStatus.OK)
 }
 
-async function updateTask(req: Request, res: Response) {
-    const {name} = req.body as createTask;
+// async function updateTask(req: Request, res: Response) {
+//     const {name} = req.body as createTask;
 
-    await taskService.updateTask(name);
-    res.sendStatus(httpStatus.OK)
-}
+//     await taskService.updateTask(name);
+//     res.sendStatus(httpStatus.OK)
+// }
     
 
-const taskController = { createTask, getTask, getTasks, editTask, updateTask};
+const taskController = { createTask, getTask, getTasks, editTask};
 
 export default taskController;

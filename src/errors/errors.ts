@@ -12,13 +12,6 @@ function conflict(resource = "item") {
     }
 }
 
-function equalCities() {
-    return {
-        type: "conflict",
-        message: `The destination can't be equal to the origin city!`
-    }
-}
-
 function invalidPassword() {
     return {
         type: "invalidPassword",
@@ -37,6 +30,5 @@ export const errors = {
     notFound,
     conflict,
     invalidPassword,
-    equalCities,
     unauthorized
 }
