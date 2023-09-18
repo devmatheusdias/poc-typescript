@@ -17,7 +17,6 @@ async function signIn(req: Request, res: Response) {
 
    await authService.signIn(email, password, res.locals.userId)
    res.sendStatus(httpStatus.OK)
-
 }
 
 async function logout(req: Request, res: Response) {
@@ -25,6 +24,14 @@ async function logout(req: Request, res: Response) {
     await authService.logout(res.locals.userId)
 }
 
-const responsibleController = { signUp, signIn, logout};
+async function getCep(req: Request, res: Response) {
+    const { cep } = req.query
+
+    const result = await req.get(`https://viacep.com.br/ws/${cep}/json/`)
+    res.send(result)
+    
+}
+
+const responsibleController = { signUp, signIn, logout, getCep};
 
 export default responsibleController;

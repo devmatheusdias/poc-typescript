@@ -22,4 +22,5 @@ async function logout(userId:number) {
     await authRepository.logout(userId)
     
 }
+
 export const authService = {signUp, signIn, logout}
